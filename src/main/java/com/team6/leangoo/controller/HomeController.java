@@ -26,6 +26,7 @@ public class HomeController {
 
     @RequestMapping(value = "/login")
     public ModelAndView login(HttpServletRequest request) throws Exception{
+        System.out.println(request.getAttribute("username"));
         ModelAndView mv=new ModelAndView();
         mv.setViewName("login");
         String exception= (String) request.getAttribute("shiroLoginFailure");//在AuthReam类中(自己写)验证登录用户,假如信息不对,可以在这里取得抛出错误

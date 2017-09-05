@@ -19,7 +19,7 @@ import java.util.Map;
  * Shiro配置类,
  * 具体百度
  */
-@Configuration
+//@Configuration
 public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {

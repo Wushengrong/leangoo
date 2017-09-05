@@ -30,15 +30,16 @@ import static org.junit.Assert.*;
 @SpringBootTest
 public class TestServiceTest {
     @Autowired private BoardMapper boardMapper;
+    @Autowired private LoginService loginService;
     @Before
     public void setUp() throws Exception {
     }
 
     @Test
     public void insert() throws Exception {
-        Board board=new Board();
-        board.setBoardEndDate(Date.from(Instant.now()));
-        System.out.println(boardMapper.selectByPrimaryKey(1).toString());
+        User user=new User();
+        user.setUserAccount("agzou");
+        System.out.println(loginService.getUserInfo("agzou").toString());
 
        }
     }
