@@ -10,25 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2017-08-26 14:30:11
+Date: 2017-09-07 08:37:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for archive
--- ----------------------------
-DROP TABLE IF EXISTS `archive`;
-CREATE TABLE `archive` (
-  `archive_id` int(11) NOT NULL,
-  `type` int(2) DEFAULT NULL,
-  `project_or_board_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`archive_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- ----------------------------
--- Records of archive
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for board
@@ -70,22 +55,6 @@ CREATE TABLE `card` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for card_checkitem
--- ----------------------------
-DROP TABLE IF EXISTS `card_checkitem`;
-CREATE TABLE `card_checkitem` (
-  `checkItem_id` int(11) NOT NULL AUTO_INCREMENT,
-  `checkItem_name` varchar(255) DEFAULT NULL,
-  `checkItem_value` int(11) DEFAULT NULL,
-  `card_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`checkItem_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of card_checkitem
--- ----------------------------
-
--- ----------------------------
 -- Table structure for card_user
 -- ----------------------------
 DROP TABLE IF EXISTS `card_user`;
@@ -117,37 +86,6 @@ CREATE TABLE `comment` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for lane
--- ----------------------------
-DROP TABLE IF EXISTS `lane`;
-CREATE TABLE `lane` (
-  `lane_id` int(11) NOT NULL AUTO_INCREMENT,
-  `lane_locate` int(11) DEFAULT NULL,
-  PRIMARY KEY (`lane_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of lane
--- ----------------------------
-
--- ----------------------------
--- Table structure for lane_card
--- ----------------------------
-DROP TABLE IF EXISTS `lane_card`;
-CREATE TABLE `lane_card` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `card_id` int(11) DEFAULT NULL,
-  `list_id` int(11) DEFAULT NULL,
-  `lane_card_locate` int(11) DEFAULT NULL,
-  `lane_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of lane_card
--- ----------------------------
-
--- ----------------------------
 -- Table structure for list
 -- ----------------------------
 DROP TABLE IF EXISTS `list`;
@@ -160,6 +98,22 @@ CREATE TABLE `list` (
 
 -- ----------------------------
 -- Records of list
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for list_card
+-- ----------------------------
+DROP TABLE IF EXISTS `list_card`;
+CREATE TABLE `list_card` (
+  `id` int(11) NOT NULL,
+  `card_id` int(11) DEFAULT NULL,
+  `list_id` int(11) DEFAULT NULL,
+  `card_locate` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of list_card
 -- ----------------------------
 
 -- ----------------------------
@@ -224,6 +178,7 @@ CREATE TABLE `project_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `project_id` int(11) DEFAULT NULL,
+  `is_personal` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -291,6 +246,21 @@ CREATE TABLE `user` (
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', 'agzou', 'admin', null, '1', 'This is test Update', null);
 INSERT INTO `user` VALUES ('2', 'admin', 'admin', null, '1', null, null);
+
+-- ----------------------------
+-- Table structure for user_friend
+-- ----------------------------
+DROP TABLE IF EXISTS `user_friend`;
+CREATE TABLE `user_friend` (
+  `id` int(11) NOT NULL,
+  `friend_to` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of user_friend
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user_role

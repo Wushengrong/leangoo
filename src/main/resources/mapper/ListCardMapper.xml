@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.team6.leangoo.mapper.LaneCardMapper" >
-  <resultMap id="BaseResultMap" type="com.team6.leangoo.model.LaneCard" >
+<mapper namespace="com.team6.leangoo.mapper.ListCardMapper" >
+  <resultMap id="BaseResultMap" type="com.team6.leangoo.model.ListCard" >
     <!--
       WARNING - @mbg.generated
     -->
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="card_id" property="cardId" jdbcType="INTEGER" />
     <result column="list_id" property="listId" jdbcType="INTEGER" />
-    <result column="lane_card_locate" property="laneCardLocate" jdbcType="INTEGER" />
-    <result column="lane_id" property="laneId" jdbcType="INTEGER" />
+    <result column="card_locate" property="cardLocate" jdbcType="INTEGER" />
   </resultMap>
 </mapper>

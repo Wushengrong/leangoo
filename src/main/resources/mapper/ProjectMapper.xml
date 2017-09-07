@@ -13,4 +13,17 @@
     <result column="project_end_date" property="projectEndDate" jdbcType="DATE" />
     <result column="project_is_archive" property="projectIsArchive" jdbcType="INTEGER"/>
   </resultMap>
+  <resultMap id="archiveProject" type="com.team6.leangoo.model.Project">
+    <id column="project_id" property="projectId" jdbcType="INTEGER"/>
+    <result column="project_name" property="projectName" jdbcType="VARCHAR"/>
+  </resultMap>
+  <select id="getArchiveProjects"  parameterType="integer" resultMap="archiveProject">
+    SELECT
+		project.project_id,
+		project.project_name
+        FROM
+            project_user
+		INNER JOIN project ON project_user.project_id=project.project_id
+        WHERE project_is_archive = 1 AND user_id = #{userId}
+  </select>
 </mapper>

@@ -27,7 +27,7 @@
         <javaClientGenerator targetPackage="com.team6.leangoo.mapper" targetProject="src/main/java"
                              type="XMLMAPPER"/>
 
-        <table tableName="archive">
+        <table tableName="%">
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
             <!--oracle 配置-->

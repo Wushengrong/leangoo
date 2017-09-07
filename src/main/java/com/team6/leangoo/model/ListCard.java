@@ -2,8 +2,8 @@ package com.team6.leangoo.model;
 
 import javax.persistence.*;
 
-@Table(name = "lane_card")
-public class LaneCard {
+@Table(name = "list_card")
+public class ListCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -14,11 +14,8 @@ public class LaneCard {
     @Column(name = "list_id")
     private Integer listId;
 
-    @Column(name = "lane_card_locate")
-    private Integer laneCardLocate;
-
-    @Column(name = "lane_id")
-    private Integer laneId;
+    @Column(name = "card_locate")
+    private Integer cardLocate;
 
     /**
      * @return id
@@ -63,30 +60,16 @@ public class LaneCard {
     }
 
     /**
-     * @return lane_card_locate
+     * @return card_locate
      */
-    public Integer getLaneCardLocate() {
-        return laneCardLocate;
+    public Integer getCardLocate() {
+        return cardLocate;
     }
 
     /**
-     * @param laneCardLocate
+     * @param cardLocate
      */
-    public void setLaneCardLocate(Integer laneCardLocate) {
-        this.laneCardLocate = laneCardLocate;
-    }
-
-    /**
-     * @return lane_id
-     */
-    public Integer getLaneId() {
-        return laneId;
-    }
-
-    /**
-     * @param laneId
-     */
-    public void setLaneId(Integer laneId) {
-        this.laneId = laneId;
+    public void setCardLocate(Integer cardLocate) {
+        this.cardLocate = cardLocate;
     }
 }

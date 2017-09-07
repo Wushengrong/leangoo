@@ -13,4 +13,18 @@
     <result column="board_locate" property="boardLocate" jdbcType="INTEGER" />
     <result column="board_is_archive" property="boardIsArchive" jdbcType="INTEGER"/>
   </resultMap>
+  <resultMap id="archiveBoard" type="com.team6.leangoo.model.Board">
+    <id column="board_id" property="boardId" jdbcType="INTEGER"/>
+    <result column="board_name" property="boardName" jdbcType="VARCHAR"/>
+  </resultMap>
+  <select id="getArchiveBoards" parameterType="integer" resultMap="archiveBoard">
+    SELECT
+		board.board_id,
+		board.board_name
+        FROM
+            project_user
+		INNER JOIN project_board ON project_user.project_id=project_board.project_id
+		INNER JOIN board ON project_board.board_id=board.board_id
+        WHERE board_is_archive = 1 AND user_id = #{userId}
+  </select>
 </mapper>
