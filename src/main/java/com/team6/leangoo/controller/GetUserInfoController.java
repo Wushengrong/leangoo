@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 public class GetUserInfoController {
     private final GetUserInfoService getUserInfoService;
-    private Integer userId = 1;
 
     @Autowired
     public GetUserInfoController(GetUserInfoService getUserInfoService){
@@ -21,6 +22,7 @@ public class GetUserInfoController {
 
     @RequestMapping(value = "/getUserInfoById",method = RequestMethod.POST)
     public AjaxResult getUserInfoById(){
+        Integer userId = 1;
         AjaxResult ajaxResult = new AjaxResult();
         try {
             ajaxResult.setData(getUserInfoService.getUserInfoById(userId));
@@ -35,16 +37,18 @@ public class GetUserInfoController {
     }
 
     @RequestMapping(value = "/changeUserInfo",method = RequestMethod.POST)
-    public AjaxResult changeUserInfo(@RequestBody User user){
+    public AjaxResult changeUserInfo(@RequestBody User userMsg){
+        Integer userId = 1;
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            if (getUserInfoService.changeUserInfo(user)==1) {
+            User user = getUserInfoService.getUserInfoById(userId);
+            if (getUserInfoService.changeUserInfo(user,userMsg)==1) {
                 ajaxResult.seterrcode(0);
             } else {
                 ajaxResult.seterrcode(10);
                 ajaxResult.setinfo("操作失败");
             }
-            ajaxResult.setData(user);
+            ajaxResult.setData(getUserInfoService.getUserInfoById(userId));
             return ajaxResult;
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,12 +59,13 @@ public class GetUserInfoController {
     }
 
     @RequestMapping(value = "/changeUserPassword",method = RequestMethod.POST)
-    public AjaxResult changeUserPassword(String userPassword){
+    public AjaxResult changeUserPassword(@RequestBody Map map){
+        Integer userId = 1;
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            if (getUserInfoService.changeUserPasssword(userPassword,userId) == 1) {
+            User user = getUserInfoService.getUserInfoById(userId);
+            if (getUserInfoService.changeUserPasssword(user,map) == 1) {
                 ajaxResult.seterrcode(0);
-                ajaxResult.setData(userPassword);
             } else {
                 ajaxResult.seterrcode(10);
                 ajaxResult.setinfo("操作失败");

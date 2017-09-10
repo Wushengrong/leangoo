@@ -9,4 +9,22 @@
     <result column="friend_to" property="friendTo" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
   </resultMap>
+  <resultMap id="friend" type="com.team6.leangoo.model.User" >
+
+      <result column="user_account" property="userAccount" jdbcType="VARCHAR"/>
+
+      <result column="user_email" property="userEmail" jdbcType="VARCHAR"/>
+
+      <result column="user_avatar" property="userAvatar" jdbcType="VARCHAR"/>
+  </resultMap>
+  <select id="getFriendList" parameterType="INTEGER" resultMap="friend">
+    SELECT
+      `user`.user_account,
+      `user`.user_email,
+      `user`.user_avatar
+    FROM
+      `user`
+    INNER JOIN user_friend ON `user`.user_id = user_friend.friend_to
+    WHERE user_friend.user_id = #{userId}
+  </select>
 </mapper>
