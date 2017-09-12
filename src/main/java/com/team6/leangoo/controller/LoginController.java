@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by AgZou on 2017/9/5.
  */
 @RestController
+@RequestMapping("/Login")
 public class LoginController {
     private final LoginService loginService;
 

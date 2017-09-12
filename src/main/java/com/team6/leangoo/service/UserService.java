@@ -1,21 +1,26 @@
 package com.team6.leangoo.service;
 
-
 import com.team6.leangoo.mapper.UserMapper;
 import com.team6.leangoo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Created by AgZou on 2017/8/24.
- */
+import java.util.Map;
+
 @Service
 @Transactional
 public class UserService {
-    @Autowired private UserMapper userMapper;
-    //IDEA报错是因为没有找到mapper的实现类,实际上mapper实现类是在编译(不确定?)中生成的,不影响
-    public User findUserByName(String username){
-        return userMapper.findByUserName(username);
+    @Autowired
+    private UserMapper userMapper;
+
+    public User getUserInfoById(User user){
+        return userMapper.selectOne(user);
+    }
+    public int changeUserInfo(User userMsg){
+        return userMapper.updateByPrimaryKeySelective(userMsg);
+    }
+    public User selectUserByAccount(User user){
+        return userMapper.selectOne(user);
     }
 }

@@ -1,4 +1,4 @@
-package com.team6.leangoo.controller;
+package com.team6.leangoo.testController;
 
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;

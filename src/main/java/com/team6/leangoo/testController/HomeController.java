@@ -1,4 +1,4 @@
-package com.team6.leangoo.controller;
+package com.team6.leangoo.testController;
 
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;

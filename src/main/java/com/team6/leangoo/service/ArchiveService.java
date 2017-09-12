@@ -4,6 +4,7 @@ import com.team6.leangoo.mapper.BoardMapper;
 import com.team6.leangoo.mapper.ProjectMapper;
 import com.team6.leangoo.model.Board;
 import com.team6.leangoo.model.Project;
+import com.team6.leangoo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +26,8 @@ public class ArchiveService {
     @Autowired private ProjectMapper projectMapper;
     @Autowired private BoardMapper boardMapper;
 
-    public List getArchivePros(Integer userId){
-        List<Project> projects=projectMapper.getArchiveProjects(userId);
+    public List getArchivePros(User user){
+        List<Project> projects=projectMapper.getArchiveProjects(user.getUserId());
         List list=new ArrayList();
         for(Project temp:projects){
             Map map=new HashMap();
@@ -37,8 +38,8 @@ public class ArchiveService {
         }
         return list;
     }
-    public List getArchiveBoardList(Integer userId){
-        List<Board> boards = boardMapper.getArchiveBoards(userId);
+    public List getArchiveBoardList(User user){
+        List<Board> boards = boardMapper.getArchiveBoards(user.getUserId());
         List list = new ArrayList();
         for (Board temp:boards){
             Map map = new HashMap();

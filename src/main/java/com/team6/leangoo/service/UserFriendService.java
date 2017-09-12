@@ -21,9 +21,8 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class FriendService {
+public class UserFriendService {
     @Autowired private UserFriendMapper userFriendMapper;
-    @Autowired private UserMapper userMapper;
 
     public List getFriendList(User user){
         List<User> friends = userFriendMapper.getFriendList(user.getUserId());
@@ -48,11 +47,5 @@ public class FriendService {
         if (userFriendMapper.selectOne(userFriend) != null)
             return userFriendMapper.delete(userFriend);
         else return 0;
-    }
-
-    public User selectUserByAccount(String userAccount){
-        User user = new User();
-        user.setUserAccount(userAccount);
-        return userMapper.selectOne(user);
     }
 }

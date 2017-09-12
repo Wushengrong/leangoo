@@ -2,8 +2,8 @@ package com.team6.leangoo.controller;
 
 import com.team6.leangoo.model.User;
 import com.team6.leangoo.model.UserFriend;
-import com.team6.leangoo.service.FriendService;
-import com.team6.leangoo.service.GetUserInfoService;
+import com.team6.leangoo.service.UserFriendService;
+import com.team6.leangoo.service.UserService;
 import com.team6.leangoo.util.AjaxResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +20,14 @@ import java.util.Map;
  * Time: 17:00
  */
 @RestController
-public class FriendController {
-    private final FriendService friendService;
-    private final GetUserInfoService getUserInfoService;
+@RequestMapping("/UserFriend")
+public class UserFriendController {
+    private final UserFriendService userFriendService;
+    private final UserService userService;
 
-    public FriendController(FriendService friendService,GetUserInfoService getUserInfoService){
-        this.friendService = friendService;
-        this.getUserInfoService = getUserInfoService;
+    public UserFriendController(UserFriendService userFriendService, UserService userService){
+        this.userFriendService = userFriendService;
+        this.userService = userService;
     }
 
     @RequestMapping(value = "/getFriendList",method = RequestMethod.POST)
@@ -34,8 +35,10 @@ public class FriendController {
         Integer userId = 1;
         AjaxResult ajaxResult = new AjaxResult();
         try {
-            User user = getUserInfoService.getUserInfoById(userId);
-            List friendList = friendService.getFriendList(user);
+            User user = new User();
+            user.setUserId(userId);
+            user = userService.getUserInfoById(user);
+            List friendList = userFriendService.getFriendList(user);
             ajaxResult.seterrcode(0);
             ajaxResult.setData(friendList);
             return ajaxResult;
@@ -50,22 +53,26 @@ public class FriendController {
     @RequestMapping(value = "/addFriend",method = RequestMethod.POST)
     public AjaxResult addFriend(@RequestBody Map map){
         Integer userId = 1;
+        User user = new User();
+        user.setUserId(userId);
         AjaxResult ajaxResult = new AjaxResult();
         try {
             String friendAccount = map.get("friendAccount").toString();
-            User user = getUserInfoService.getUserInfoById(userId);
-            User friend = friendService.selectUserByAccount(friendAccount);
+            user = userService.getUserInfoById(user);
+            User friend = new User();
+            friend.setUserAccount(friendAccount);
+            friend = userService.selectUserByAccount(friend);
             UserFriend userFriend = new UserFriend();
             userFriend.setUserId(user.getUserId());
             userFriend.setFriendTo(friend.getUserId());
-            if (friendService.addFriend(userFriend) == 1){
+            if (userFriendService.addFriend(userFriend) == 1){
                 ajaxResult.seterrcode(0);
                 ajaxResult.setinfo("添加成功");
             }else {
                 ajaxResult.seterrcode(2);
                 ajaxResult.setinfo("添加失败，好友已存在!");
             }
-            ajaxResult.setData(friendService.getFriendList(user));
+            ajaxResult.setData(userFriendService.getFriendList(user));
             return ajaxResult;
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,22 +85,26 @@ public class FriendController {
     @RequestMapping(value = "/deleteFriend",method = RequestMethod.POST)
     public AjaxResult deleteFriend(@RequestBody Map map){
         Integer userId = 1;
+        User user = new User();
+        user.setUserId(userId);
         AjaxResult ajaxResult = new AjaxResult();
         try {
             String friendAccount = map.get("friendAccount").toString();
-            User user = getUserInfoService.getUserInfoById(userId);
-            User friend = friendService.selectUserByAccount(friendAccount);
+            user = userService.getUserInfoById(user);
+            User friend = new User();
+            friend.setUserAccount(friendAccount);
+            friend = userService.selectUserByAccount(friend);
             UserFriend userFriend = new UserFriend();
             userFriend.setUserId(user.getUserId());
             userFriend.setFriendTo(friend.getUserId());
-            if (friendService.deleteFriend(userFriend) == 1){
+            if (userFriendService.deleteFriend(userFriend) == 1){
                 ajaxResult.seterrcode(0);
                 ajaxResult.setinfo("删除成功");
             }else {
                 ajaxResult.seterrcode(2);
                 ajaxResult.setinfo("删除失败，好友不存在!");
             }
-            ajaxResult.setData(friendService.getFriendList(user));
+            ajaxResult.setData(userFriendService.getFriendList(user));
             return ajaxResult;
         } catch (Exception e) {
             e.printStackTrace();
