@@ -4,11 +4,14 @@ import com.team6.leangoo.model.User;
 import com.team6.leangoo.service.UserService;
 import com.team6.leangoo.util.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,6 +94,57 @@ public class UserController {
             }
             map = new HashMap();
             map.put("userPassword",user.getUserPassword());
+            ajaxResult.setData(map);
+            return ajaxResult;
+        } catch (Exception e) {
+            e.printStackTrace();
+            ajaxResult.seterrcode(10);
+            ajaxResult.setinfo("请求失败");
+            return ajaxResult;
+        }
+    }
+
+    @RequestMapping(value = "/updateUserAvatar",method = RequestMethod.POST)
+    public AjaxResult updateUserAvatar(@RequestParam("userAvatar") CommonsMultipartFile userAvatar, HttpServletRequest request){
+        Integer userId = 1;
+        AjaxResult ajaxResult = new AjaxResult();
+        try {
+            //String fileName = userAvatar.getOriginalFilename();
+            //System.out.println("文件名:" + fileName);
+            String newFileName = userId + "avatar";
+            //System.out.println(newFileName);
+            ServletContext sc = request.getSession().getServletContext();
+            String path = sc.getRealPath("/userAvatar") + "/";
+            File f = new File(path);
+            if (!f.exists())
+                f.mkdirs();
+            if (!userAvatar.isEmpty()) {
+                try {
+                    FileOutputStream fos = new FileOutputStream(path + newFileName);
+                    InputStream in = userAvatar.getInputStream();
+                    int b = 0;
+                    while ((b = in.read()) != -1) {
+                        fos.write(b);
+                    }
+                    fos.close();
+                    in.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("文件保存地址:" + path + newFileName);
+
+            User user = new User();
+            user.setUserId(userId);
+            user.setUserAvatar(newFileName);//要不要 path+ ?
+            if (userService.changeUserInfo(user)==1) {
+                ajaxResult.seterrcode(0);
+            } else {
+                ajaxResult.seterrcode(10);
+                ajaxResult.setinfo("操作失败");
+            }
+            Map map = new HashMap();
+            map.put("userAvatar",newFileName);
             ajaxResult.setData(map);
             return ajaxResult;
         } catch (Exception e) {

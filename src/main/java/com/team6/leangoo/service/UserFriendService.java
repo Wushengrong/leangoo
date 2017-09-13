@@ -27,8 +27,9 @@ public class UserFriendService {
     public List getFriendList(User user){
         List<User> friends = userFriendMapper.getFriendList(user.getUserId());
         List friendList = new ArrayList();
+        Map map = null;
         for (User temp:friends){
-            Map map = new HashMap();
+            map = new HashMap();
             map.put("name",temp.getUserAccount());
             map.put("email",temp.getUserEmail());
             map.put("avatar",temp.getUserAvatar());

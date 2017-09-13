@@ -17,8 +17,8 @@ public class UserService {
     public User getUserInfoById(User user){
         return userMapper.selectOne(user);
     }
-    public int changeUserInfo(User userMsg){
-        return userMapper.updateByPrimaryKeySelective(userMsg);
+    public int changeUserInfo(User user){
+        return userMapper.updateByPrimaryKeySelective(user);
     }
     public User selectUserByAccount(User user){
         return userMapper.selectOne(user);

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ProjectMapper extends MyMapper<Project> {
     public List getArchiveProjects(int userId);
+    public List getUserProjectList(int userId);
+    public int newProject(Project project);
 }

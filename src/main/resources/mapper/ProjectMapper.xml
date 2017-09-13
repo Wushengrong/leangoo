@@ -17,6 +17,19 @@
     <id column="project_id" property="projectId" jdbcType="INTEGER"/>
     <result column="project_name" property="projectName" jdbcType="VARCHAR"/>
   </resultMap>
+  <resultMap id="userProjectList" type="com.team6.leangoo.model.Project">
+    <id column="project_id" property="projectId" jdbcType="INTEGER"/>
+    <result column="project_name" property="projectName" jdbcType="VARCHAR"/>
+    <result column="project_intro" property="projectIntro" jdbcType="VARCHAR" />
+    <result column="project_create_date" property="projectCreateDate" jdbcType="DATE" />
+    <collection property="boardList" ofType="com.team6.leangoo.model.Board">
+      <id column="board_id" property="boardId" jdbcType="INTEGER" />
+      <result column="board_name" property="boardName" jdbcType="VARCHAR" />
+      <result column="board_start_date" property="boardStartDate" jdbcType="DATE" />
+      <result column="board_end_date" property="boardEndDate" jdbcType="DATE" />
+      <result column="board_locate" property="boardLocate" jdbcType="INTEGER" />
+    </collection>
+  </resultMap>
   <select id="getArchiveProjects"  parameterType="integer" resultMap="archiveProject">
     SELECT
 		project.project_id,
@@ -26,4 +39,30 @@
 		INNER JOIN project ON project_user.project_id=project.project_id
         WHERE project_is_archive = 1 AND user_id = #{userId}
   </select>
+  <select id="getUserProjectList" parameterType="INTEGER" resultMap="userProjectList">
+    SELECT
+project.project_id,
+project.project_name,
+project.project_intro,
+project.project_create_date,
+board.board_id,
+board.board_name,
+board.board_start_date,
+board.board_end_date,
+board.board_locate
+FROM
+project
+INNER JOIN project_board ON project.project_id = project_board.project_id
+INNER JOIN board ON project_board.board_id = board.board_id
+INNER JOIN project_user ON project.project_id = project_user.project_id
+INNER JOIN `user` ON project_user.user_id = `user`.user_id
+WHERE project.project_is_archive = 0 AND board.board_is_archive = 0 AND `user`.user_id = #{userId}
+  </select>
+  <insert id="newProject" parameterType="com.team6.leangoo.model.Project" useGeneratedKeys="true" keyProperty="projectId">
+    INSERT INTO project(project.project_name,
+    project.project_intro,
+    project.project_create_date,
+    project.project_is_archive)
+    VALUES (#{projectName,jdbcType=VARCHAR},#{projectIntro,jdbcType=VARCHAR},#{projectCreateDate,jdbcType=DATE},0)
+  </insert>
 </mapper>

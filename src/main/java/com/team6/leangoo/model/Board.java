@@ -1,6 +1,8 @@
 package com.team6.leangoo.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -16,9 +18,13 @@ public class Board {
     private String boardName;
 
     @Column(name = "board_start_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date boardStartDate;
 
     @Column(name = "board_end_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date boardEndDate;
 
     @Column(name = "board_start")
