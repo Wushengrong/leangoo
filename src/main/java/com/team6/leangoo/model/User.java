@@ -31,6 +31,16 @@ public class User {
     private String userAvatar;
     @Transient//在model里自定义的属性一定要加上这个注解,表明这个属性不是表里的字段
     private java.util.List<Role> roles=new ArrayList<>();//这个变量,根据表里的对应关系手写的
+    @Transient
+    private java.util.List<Board> personalBoardList=new ArrayList<>();
+
+    public List<Board> getPersonalBoardList() {
+        return personalBoardList;
+    }
+
+    public void setPersonalBoardList(List<Board> personalBoardList) {
+        this.personalBoardList = personalBoardList;
+    }
 
     public List<Role> getRoles() {
         return roles;

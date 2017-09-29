@@ -8,6 +8,5 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="card_id" property="cardId" jdbcType="INTEGER" />
     <result column="list_id" property="listId" jdbcType="INTEGER" />
-    <result column="card_locate" property="cardLocate" jdbcType="INTEGER" />
   </resultMap>
 </mapper>

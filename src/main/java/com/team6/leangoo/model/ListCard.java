@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class ListCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
     private Integer id;
 
     @Column(name = "card_id")
@@ -14,8 +15,6 @@ public class ListCard {
     @Column(name = "list_id")
     private Integer listId;
 
-    @Column(name = "card_locate")
-    private Integer cardLocate;
 
     /**
      * @return id
@@ -59,17 +58,4 @@ public class ListCard {
         this.listId = listId;
     }
 
-    /**
-     * @return card_locate
-     */
-    public Integer getCardLocate() {
-        return cardLocate;
-    }
-
-    /**
-     * @param cardLocate
-     */
-    public void setCardLocate(Integer cardLocate) {
-        this.cardLocate = cardLocate;
-    }
 }

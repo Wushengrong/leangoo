@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
 @Table(name = "project")
 public class Project {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "project_id")
     private Integer projectId;
 
@@ -34,7 +36,7 @@ public class Project {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date projectEndDate;
-    @Column(name ="project_is_archive")
+    @Column(name = "project_is_archive")
     private Integer projectIsArchive;
 
     //多表查询添加 project包含的boards添加BY啊喜20170913

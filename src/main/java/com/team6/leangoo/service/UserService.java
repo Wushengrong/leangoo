@@ -23,4 +23,8 @@ public class UserService {
     public User selectUserByAccount(User user){
         return userMapper.selectOne(user);
     }
+    public User findUserByAccount(String account){return userMapper.findByUserName(account);}
+    public User selectUserPersonalBoardList(Integer userId){
+        return userMapper.selectPersonalBoardList(userId);
+    }
 }

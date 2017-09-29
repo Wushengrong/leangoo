@@ -43,7 +43,7 @@ public class AuthRealm extends AuthorizingRealm {
         System.out.println("登录验证运行");
         String username= (String) token.getPrincipal();//获得用户输入账号
         System.out.println("username="+username);
-        User user=userService.findUserByName(username);//从数据库读取用户资料
+        User user=userService.findUserByAccount(username);//从数据库读取用户资料
         if(user==null) {
             return null;
         }

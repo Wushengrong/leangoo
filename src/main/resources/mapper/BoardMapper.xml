@@ -1,30 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.team6.leangoo.mapper.BoardMapper" >
-  <resultMap id="BaseResultMap" type="com.team6.leangoo.model.Board" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="board_id" property="boardId" jdbcType="INTEGER" />
-    <result column="board_name" property="boardName" jdbcType="VARCHAR" />
-    <result column="board_start_date" property="boardStartDate" jdbcType="DATE" />
-    <result column="board_end_date" property="boardEndDate" jdbcType="DATE" />
-    <result column="board_start" property="boardStart" jdbcType="INTEGER" />
-    <result column="board_locate" property="boardLocate" jdbcType="INTEGER" />
-    <result column="board_is_archive" property="boardIsArchive" jdbcType="INTEGER"/>
-  </resultMap>
-  <resultMap id="archiveBoard" type="com.team6.leangoo.model.Board">
-    <id column="board_id" property="boardId" jdbcType="INTEGER"/>
-    <result column="board_name" property="boardName" jdbcType="VARCHAR"/>
-  </resultMap>
-  <select id="getArchiveBoards" parameterType="integer" resultMap="archiveBoard">
-    SELECT
-		board.board_id,
-		board.board_name
+<mapper namespace="com.team6.leangoo.mapper.BoardMapper">
+    <resultMap id="BaseResultMap" type="com.team6.leangoo.model.Board">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="board_id" property="boardId" jdbcType="INTEGER"/>
+        <result column="board_name" property="boardName" jdbcType="VARCHAR"/>
+        <result column="board_start_date" property="boardStartDate" jdbcType="DATE"/>
+        <result column="board_end_date" property="boardEndDate" jdbcType="DATE"/>
+        <result column="board_start" property="boardStart" jdbcType="INTEGER"/>
+        <result column="board_locate" property="boardLocate" jdbcType="INTEGER"/>
+        <result column="board_is_archive" property="boardIsArchive" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="archiveBoard" type="com.team6.leangoo.model.Board">
+        <id column="board_id" property="boardId" jdbcType="INTEGER"/>
+        <result column="board_name" property="boardName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="getListResultMap" type="com.team6.leangoo.model.Board">
+        <id column="board_id" property="boardId" jdbcType="INTEGER"/>
+        <result column="board_name" property="boardName" jdbcType="VARCHAR"/>
+        <collection property="lists" ofType="com.team6.leangoo.model.List">
+            <id column="list_id" property="listId" jdbcType="INTEGER"/>
+            <result column="list_name" property="listName" jdbcType="VARCHAR"/>
+            <result column="list_locate" property="listLocate" jdbcType="VARCHAR"/>
+            <collection property="cardList" ofType="com.team6.leangoo.model.Card">
+                <id column="card_id" property="cardId" jdbcType="INTEGER"/>
+                <result column="card_name" property="cardName" jdbcType="VARCHAR"/>
+                <result column="card_intro" property="cardIntro" jdbcType="VARCHAR"/>
+                <result column="card_end_date" property="cardEndDate" jdbcType="DATE"/>
+                <result column="card_start_date" property="cardStartDate" jdbcType="DATE"/>
+                <result column="card_label" property="cardLabel" jdbcType="VARCHAR"/>
+                <result column="card_workload" property="cardWorkload" jdbcType="DOUBLE"/>
+                <result column="card_locate" property="cardLocate" jdbcType="INTEGER"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="getArchiveBoards" parameterType="integer" resultMap="archiveBoard">
+        SELECT DISTINCT
+            board.board_id,
+            board.board_name
         FROM
-            project_user
-		INNER JOIN project_board ON project_user.project_id=project_board.project_id
-		INNER JOIN board ON project_board.board_id=board.board_id
-        WHERE board_is_archive = 1 AND user_id = #{userId}
-  </select>
+            board
+            LEFT JOIN project_board ON board.board_id = project_board.board_id
+            LEFT JOIN project ON project_board.project_id = project.project_id
+            LEFT JOIN project_user ON project.project_id = project_user.project_id
+            LEFT JOIN user ON project_user.user_id = user.user_id
+        WHERE user.user_id = #{userId} AND board_is_archive = 1
+    </select>
+
+    <select id="getList" resultMap="getListResultMap">
+        SELECT
+            board.board_id,
+            board.board_name,
+            list.list_id,
+            list.list_name,
+            list.list_locate,
+            card.card_id,
+            card.card_name,
+            card.card_intro,
+            card.card_end_date,
+            card.card_start_date,
+            card.card_label,
+            card.card_workload,
+            card.card_locate
+        FROM list
+            LEFT JOIN card ON list.list_id = card.card_list_id
+            LEFT JOIN board_list ON list.list_id = board_list.list_id
+            LEFT JOIN board ON board_list.board_id = board.board_id
+        WHERE board.board_id = #{boardId} ORDER BY list_locate,card_locate
+    </select>
 </mapper>

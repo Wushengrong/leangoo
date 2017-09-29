@@ -37,9 +37,7 @@ public class TestServiceTest {
 
     @Test
     public void insert() throws Exception {
-        User user=new User();
-        user.setUserAccount("agzou");
-        System.out.println(loginService.getUserInfo("agzou").toString());
+        loginService.getUserInfo("agzou");
 
        }
     }

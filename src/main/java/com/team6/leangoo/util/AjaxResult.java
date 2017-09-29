@@ -2,13 +2,13 @@ package com.team6.leangoo.util;
 
 /**
  * 封装返回数据
- * @author czh
- * @2015年5月20日
  */
-public class AjaxResult {
-
-
-	private int errcode = 1;
+public final class AjaxResult {
+	public static final int ERROCODE_SUCCESS=0;//操作成功
+	public static final int ERROCODE_EXITS=1;//数据已存在
+	public static final int ERRCODE_NOT_EXITS=2;//数据不存在
+	public static final int ERRCODE_SYSTEM_ERROR=10;//系统错误
+	private int errcode = ERROCODE_SUCCESS;
 	private String info = "操作成功";
 	private Object data;
 	
